@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Mhofu ❤️</title>
+<style>
+  :root{
+    --bg1:#0b0b0b;      /* near-black */
+    --bg2:#1a1a1a;      /* charcoal */
+    --card:#0f0f10;     /* deep panel */
+    --ink:#eaeaea;      /* text */
+    --muted:#b8b8b8;    /* secondary text */
+    --accent:#ff4d6d;   /* heart / button accent */
+    --accent-2:#ff1e56;
+    --glass: rgba(255,255,255,.06);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; display:flex; align-items:center; justify-content:center;
+    background:radial-gradient(60% 80% at 50% 20%, #141414 0%, var(--bg1) 45%, var(--bg2) 100%);
+    font-family: ui-rounded, system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color:var(--ink);
+    overflow:hidden;
+  }
+  .card{
+    position:relative;
+    width:min(92vw,720px);
+    padding:38px 28px 48px;
+    background:linear-gradient(180deg, var(--glass), rgba(255,255,255,.03));
+    backdrop-filter: blur(6px);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:28px;
+    box-shadow:0 24px 70px rgba(0,0,0,.6);
+    text-align:center;
+  }
+  h1{
+    margin:0 0 10px;
+    font-size: clamp(30px, 6.4vw, 60px);
+    line-height:1.05;
+    letter-spacing:.5px;
+  }
+  .pulse{display:inline-block; animation:pulse 1.4s ease-in-out infinite}
+  @keyframes pulse{
+    0%,100%{transform:scale(1)}
+    50%{transform:scale(1.08)}
+  }
+  .big{font-size:clamp(18px,3.6vw,22px); color:var(--ink)}
+  .sub{opacity:.8; color:var(--muted); margin-top:8px}
+
+  .btn{
+    display:inline-block; margin-top:20px; padding:12px 22px;
+    border-radius:999px; border:1px solid rgba(255,255,255,.2);
+    cursor:pointer; background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    color:#fff; font-weight:700; font-size:16px;
+    box-shadow:0 12px 28px rgba(255,30,86,.35);
+  }
+  .btn:active{transform:translateY(1px)}
+
+  .secret{
+    margin-top:16px; display:none; font-size:18px; line-height:1.5;
+    color:#f3f3f3;
+  }
+  .secret em{color:#ff8fa3; font-style:normal}
+
+  .floaters {position:absolute; inset:0; pointer-events:none; overflow:hidden}
+  .heart{
+    position:absolute; bottom:-80px; font-size:clamp(18px,4vw,30px);
+    animation: rise 8s linear infinite;
+    opacity:.92; filter: drop-shadow(0 6px 12px rgba(0,0,0,.45));
+  }
+  @keyframes rise{
+    0%{transform:translateY(0) translateX(0) rotate(0deg); opacity:.0}
+    10%{opacity:1}
+    100%{transform:translateY(-120vh) translateX(var(--drift)) rotate(360deg); opacity:0}
+  }
+
+  /* subtle glowing divider */
+  .rule{
+    height:1px; width:90%; margin:16px auto 0;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,.18), transparent);
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <h1>Mhofu <span class="pulse">❤️</span></h1>
+
+    <div class="big">You’ve get me grinning in the dark like this 😏</div>
+    <div class="sub">from your girl, T 💋</div>
+    <div class="rule"></div>
+
+    <button class="btn" id="reveal">Tap to read my little secret</button>
+
+    <div class="secret" id="secret">
+      I want the kind of love that meets me with no mask on—no filters, no performances.  
+      Someone who doesn’t demand love, but knows how to hold it.  
+      Are you the one who sees my walls and helps me gently break them?  
+      Will you fight to understand what’s behind my flaws—and still choose me?  
+      <em>Can you love me, unguarded?</em>
+    </div>
+
+    <!-- floating hearts layer -->
+    <div class="floaters" id="floaters"></div>
+  </div>
+
+<script>
+  // tap to reveal
+  const btn = document.getElementById('reveal');
+  const secret = document.getElementById('secret');
+  btn.addEventListener('click', () => {
+    const showing = secret.style.display === 'block';
+    secret.style.display = showing ? 'none' : 'block';
+    btn.textContent = showing ? 'Tap to read my little secret' : 'Hide message';
+  });
+
+  // floating hearts on a dark theme (red + subtle whites)
+  const emojis = ["❤️","🤍","🖤","❤️","❤️"];
+  const wrap = document.getElementById('floaters');
+
+  function spawnHeart(){
+    const h = document.createElement('div');
+    h.className = 'heart';
+    h.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    const left = Math.random()*100;
+    const delay = Math.random()*6;
+    const dur = 6 + Math.random()*6;
+    h.style.left = left + 'vw';
+    h.style.animationDuration = dur + 's';
+    h.style.animationDelay = delay + 's';
+    h.style.setProperty('--drift', (Math.random()*40-20) + 'vw');
+    wrap.appendChild(h);
+    setTimeout(()=>wrap.removeChild(h), (delay+dur)*1000);
+  }
+  setInterval(spawnHeart, 360);
+  for(let i=0;i<12;i++) spawnHeart();
+</script>
+</body>
+</html>
